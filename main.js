@@ -188,7 +188,7 @@ cryptoCoin.addBlock(new Block({user: "edo", money: 350_000}));
 //Test
 console.log(cryptoCoin.isValid());
 
-// Hack test, The block chain will auto recover if there any invalid block
+// Hack test
 let chainAt = 1;
 let chainData = {user: "banu", money: 9990};
 
@@ -205,9 +205,10 @@ for(let eachBlock = chainAt; eachBlock < cryptoCoin.chain.length-1; eachBlock++)
 	cryptoCoin.chain[chainAt+1].calculate();
 }
 cryptoCoin.chain.splice(cryptoCoin.chain.length-1,1);
-console.log(cryptoCoin.isValid()); // Auto recover the data if broken
 
 
+// Recover Things
+console.log(cryptoCoin.isValid()); // Auto recover the data if broken and return something 😏
 cryptoCoin.recover() //Just recover the data
 
 // Save block chain data
