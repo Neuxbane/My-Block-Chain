@@ -1,5 +1,5 @@
 # My-Block-Chain
-
+(https://en.wikipedia.org/wiki/Blockchain)
 A blockchain is a growing list of records, called blocks, that are linked together using cryptography. Each block contains a cryptographic hash of the previous block, a timestamp, and transaction data (generally represented as a Merkle tree).
 
 I was inspired by the following sources:
