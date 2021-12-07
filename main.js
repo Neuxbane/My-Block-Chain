@@ -2,7 +2,7 @@ const neulock = require('./neulock.js');
 
 // Create a new block chain
 let cryptoCoin = new neulock.Blockchain();
-cryptoCoin.security = 10;
+cryptoCoin.security = 70;
 
 // Add block
 cryptoCoin.addBlock(new neulock.Block({user: "banu", money: 1_000_000_000}));
