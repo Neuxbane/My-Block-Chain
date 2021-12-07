@@ -131,7 +131,7 @@ class Blockchain {
 				broken = broken/hash.length*100;
 				let validHash = this.chain[eachBlock+1].previousHash;
 				let thisBlock = this.chain[eachBlock];
-				this.#recover();
+				this.recover();
 				return {status: false, block: thisBlock, scanHash: hash, validHash: validHash, errorAt: errorAt, brokenPercentage: broken+"%"};
 			}
 		}
@@ -144,7 +144,7 @@ class Blockchain {
 
 	load(data){
 		this.#recoverHash = JSON.parse(data);
-		this.#recover();
+		this.recover();
 	}
 }
 
