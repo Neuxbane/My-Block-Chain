@@ -43,7 +43,7 @@ console.log(cryptoCoin.isValid());
 let chainAt = 1;
 let chainData = {user: "banu", money: 2_000_000_000};
 
-// Recalculate Hash for Hacked Block <- This hack doesn't work
+// Recalculate all Hashs for Hacked Block <- This hack doesn't work
 cryptoCoin.chain[chainAt].data = chainData;
 for(let eachBlock = chainAt; eachBlock < cryptoCoin.chain.length-1; eachBlock++){
 	cryptoCoin.chain[chainAt].calculate();
