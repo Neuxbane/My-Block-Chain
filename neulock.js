@@ -42,6 +42,7 @@ class Block {
 	}
 
 	refresh(){
+		this.SHA = new mySHA({timestamp: this.timestamp, data: this.data, previousHash: this.previousHash});
 		let data = JSON.parse(this.SHA.getData());
 		this.data = data.data;
 		this.previousHash = data.previousHash;
