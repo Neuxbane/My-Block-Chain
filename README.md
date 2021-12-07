@@ -9,5 +9,10 @@ then, I wrote this code..
 
 Note: The hash is contains the data it self.
 
-- `node main.js`
-- `node server.js` require `express`
+## How to install
+yourProject.js
+`require('./neulock.js')`
+
+## Example file:
+- for terminal use `node main.js`
+- for http server use `node server.js` require `node npm i express`
