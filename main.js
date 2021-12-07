@@ -1,7 +1,7 @@
 //My Secure Hash Algorithm
 class mySHA {
 	#value;
-	constructor(value){
+	constructor(value=''){
 		this.#value = JSON.stringify(value);
 		this.Hash = "0x";
 		var length = this.#value.length;
@@ -51,20 +51,37 @@ class Block {
 }
 
 
-// The block chain
+
 class Blockchain {
+	#recoverHash;
 	constructor(){
-		this.chain = [this.createGenesisBlock()];
-		this.createBackGuardBlock();
+		this.chain = [this.#createGenesisBlock()];
+		this.#recoverHash = [];
+		this.#createBackGuardBlock();
 		this.security = 6; // % Scan data
 		this.maxScan = 200; // Max scan {number} letter(s)
 	}
 
-	createGenesisBlock(){
+	recover(){
+		this.chain = [this.#createGenesisBlock()];
+		this.#createBackGuardBlock();
+		for(let recoverBlock = 0; recoverBlock < this.#recoverHash.length-1; recoverBlock++){
+			let newSHA = new mySHA();
+			newSHA.Hash = this.#recoverHash[recoverBlock];
+			let data = JSON.parse(newSHA.getData());
+			let newBlock = new Block(data.data);
+			newBlock.timestamp = data.timestamp;
+			newBlock.calculate();
+			this.addBlock(newBlock, true);
+		}
+		console.log(this.#recoverHash);
+	}
+
+	#createGenesisBlock(){
 		return new Block("Gensis block");
 	}
 
-	createBackGuardBlock(){
+	#createBackGuardBlock(){
 		let guardBlock = new Block("Guard block")
 		let prevHash = ''; let hash = this.chain[this.chain.length-1].SHA.Hash;
 		let scan = hash.length*(this.security/100);
@@ -77,7 +94,7 @@ class Blockchain {
 		this.chain.push(guardBlock);
 	}
 
-	addBlock(newBlock = new Block()){
+	addBlock(newBlock = new Block(), recover = false){
 		this.chain.splice(this.chain.length-1,1);
 		let prevHash = ''; let hash = this.chain[this.chain.length-1].SHA.Hash;
 		let scan = hash.length*(this.security/100);
@@ -87,8 +104,9 @@ class Blockchain {
 		}
 		newBlock.previousHash = prevHash;
 		newBlock.calculate();
+		if (!recover) this.#recoverHash.push(newBlock.SHA.Hash);
 		this.chain.push(newBlock);
-		this.createBackGuardBlock()
+		this.#createBackGuardBlock();
 	}
 
 	isValid(){
@@ -100,29 +118,109 @@ class Blockchain {
 			for(let readHash = 0; readHash < scan; readHash++){
 				hash += blockHash[Math.round(blockHash.length*(readHash/scan))];
 			}
-			console.log(hash, '<E>', this.chain[eachBlock+1].previousHash)
 			if (hash != this.chain[eachBlock+1].previousHash){
-				console.log("inValid");
-				return false;
+				let errorAt = ''; let broken = 0;
+				for(let errorScan = 0; errorScan < hash.length; errorScan++){
+					if (hash[errorScan]==this.chain[eachBlock+1].previousHash[errorScan]){
+						errorAt += "0"; // Where the letter is same/valid
+					} else {
+						errorAt += "1"; // Where the letter is diffrent/invalid
+						broken++;
+					}
+				}
+				broken = broken/hash.length*100;
+				let validHash = this.chain[eachBlock+1].previousHash;
+				let thisBlock = this.chain[eachBlock];
+				this.#recover();
+				return {status: false, block: thisBlock, scanHash: hash, validHash: validHash, errorAt: errorAt, brokenPercentage: broken+"%"};
 			}
 		}
-		return true;
+		return {status: true};
+	}
+
+	save(){
+		return JSON.stringify(this.#recoverHash);
+	}
+
+	load(data){
+		this.#recoverHash = JSON.parse(data);
+		this.#recover();
 	}
 }
 
 
 // Create a new block chain
 let cryptoCoin = new Blockchain();
+cryptoCoin.security = 50;
 
-
-// Add block chain
-cryptoCoin.addBlock(new Block({user: "banu", money: 1000}));
-cryptoCoin.addBlock(new Block({user: "ella", money: 10}));
-cryptoCoin.addBlock(new Block({user: "mell", money: 100}));
+// Add block
+cryptoCoin.addBlock(new Block({user: "banu", money: 1_000_000_000}));
+cryptoCoin.addBlock(new Block({user: "ella", money: 4_000_00}));
+cryptoCoin.addBlock(new Block({user: "ella", money: 4_000_00}));
+cryptoCoin.addBlock(new Block({user: "ella", money: 4_000_00}));
+cryptoCoin.addBlock(new Block({user: "ella", money: 4_000_00}));
+cryptoCoin.addBlock(new Block({user: "ella", money: 4_000_00}));
+cryptoCoin.addBlock(new Block({user: "ella", money: 4_000_00}));
+cryptoCoin.addBlock(new Block({user: "ella", money: 4_000_00}));
+cryptoCoin.addBlock(new Block({user: "ella", money: 4_000_00}));
+cryptoCoin.addBlock(new Block({user: "ella", money: 4_000_00}));
+cryptoCoin.addBlock(new Block({user: "ella", money: 4_000_00}));
+cryptoCoin.addBlock(new Block({user: "ella", money: 4_000_00}));
+cryptoCoin.addBlock(new Block({user: "ella", money: 4_000_00}));
+cryptoCoin.addBlock(new Block({user: "ella", money: 4_000_00}));
+cryptoCoin.addBlock(new Block({user: "ella", money: 4_000_00}));
+cryptoCoin.addBlock(new Block({user: "ella", money: 4_000_00}));
+cryptoCoin.addBlock(new Block({user: "ella", money: 4_000_00}));
+cryptoCoin.addBlock(new Block({user: "ella", money: 4_000_00}));
+cryptoCoin.addBlock(new Block({user: "ella", money: 4_000_00}));
+cryptoCoin.addBlock(new Block({user: "ella", money: 4_000_00}));
+cryptoCoin.addBlock(new Block({user: "ella", money: 4_000_00}));
+cryptoCoin.addBlock(new Block({user: "ella", money: 4_000_00}));
+cryptoCoin.addBlock(new Block({user: "ella", money: 4_000_00}));
+cryptoCoin.addBlock(new Block({user: "ella", money: 4_000_00}));
+cryptoCoin.addBlock(new Block({user: "ella", money: 4_000_00}));
+cryptoCoin.addBlock(new Block({user: "ella", money: 4_000_00}));
+cryptoCoin.addBlock(new Block({user: "ella", money: 4_000_00}));
+cryptoCoin.addBlock(new Block({user: "ella", money: 4_000_00}));
+cryptoCoin.addBlock(new Block({user: "mell", money: 175_000_000}));
+cryptoCoin.addBlock(new Block({user: "edo", money: 350_000}));
 
 //Test
-console.log(cryptoCoin.chain[1]);
 console.log(cryptoCoin.isValid());
-cryptoCoin.chain[3].data={user: "banu", money: 1000};
-console.log(cryptoCoin.chain[1]);
-console.log(cryptoCoin.isValid());
+
+// Hack test, The block chain will auto recover if there any invalid block
+let chainAt = 1;
+let chainData = {user: "banu", money: 9990};
+
+cryptoCoin.chain[chainAt].data=chainData;
+for(let eachBlock = chainAt; eachBlock < cryptoCoin.chain.length-1; eachBlock++){
+	cryptoCoin.chain[chainAt].calculate();
+	let prevHash = ''; let hash = cryptoCoin.chain[eachBlock].SHA.Hash;
+	let scan = hash.length*(cryptoCoin.security/100);
+	if (scan > cryptoCoin.maxScan) scan = cryptoCoin.maxScan;
+	for(let previous = 0; previous < scan; previous++){
+		prevHash += hash[Math.round(hash.length*(previous/scan))];
+	}
+	cryptoCoin.chain[eachBlock+1].previousHash=prevHash;
+	cryptoCoin.chain[chainAt+1].calculate();
+}
+cryptoCoin.chain.splice(cryptoCoin.chain.length-1,1);
+console.log(cryptoCoin.isValid()); // Auto recover the data if broken
+
+
+cryptoCoin.recover() //Just recover the data
+
+// Save block chain data
+let a = cryptoCoin.save();
+
+cryptoCoin = undefined;
+
+// Load block chain data
+cryptoCoin = new Blockchain();
+cryptoCoin.load(a);
+
+
+
+// Check memory usage
+const used = process.memoryUsage().heapUsed / 1024 / 1024;
+console.log(`The script uses approximately ${Math.round(used * 100) / 100} MB`);
