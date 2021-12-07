@@ -34,7 +34,7 @@ class mySHA {
 
 // The Block
 class Block {
-	constructor(data = {x: 10}, previousHash = '', timestamp = new Date().getTime()){
+	constructor(data = null, previousHash = (new Date().getTime()).toString(36), timestamp = new Date().getTime()){
 		this.timestamp = timestamp;
 		this.data = data;
 		this.previousHash = previousHash;
