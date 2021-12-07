@@ -74,7 +74,6 @@ class Blockchain {
 			newBlock.calculate();
 			this.addBlock(newBlock, true);
 		}
-		console.log(this.#recoverHash);
 	}
 
 	#createGenesisBlock(){
