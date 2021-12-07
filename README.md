@@ -10,7 +10,7 @@ then, I wrote this code..
 Note: The hash is contains the data it self.
 
 ## How to install
-yourProject.js
+yourProject.js add line
 `require('./neulock.js')`
 
 ## Example file:
