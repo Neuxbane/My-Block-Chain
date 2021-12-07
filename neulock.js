@@ -58,8 +58,8 @@ class Blockchain {
 		this.chain = [this.#createGenesisBlock()];
 		this.#recoverHash = [];
 		this.#createBackGuardBlock();
-		this.security = 6; // % Scan data
-		this.maxScan = 200; // Max scan {number} letter(s)
+		this.security = 30; // % Scan data
+		this.maxScan = 100; // Max scan {number} letter(s)
 	}
 
 	recover(){
@@ -109,7 +109,7 @@ class Blockchain {
 	}
 
 	isValid(){
-		for(let eachBlock = 1; eachBlock < this.chain.length-1; eachBlock++){
+		for(let eachBlock = 0; eachBlock < this.chain.length-1; eachBlock++){
 			this.chain[eachBlock].calculate();
 			let hash = ''; let blockHash = this.chain[eachBlock].SHA.Hash;
 			let scan = blockHash.length*(this.security/100);
