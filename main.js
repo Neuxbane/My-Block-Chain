@@ -2,7 +2,7 @@ const neulock = require('./neulock.js');
 
 // Create a new block chain
 let cryptoCoin = new neulock.Blockchain();
-cryptoCoin.security = 50;
+cryptoCoin.security = 10;
 
 // Add block
 cryptoCoin.addBlock(new neulock.Block({user: "banu", money: 1_000_000_000}));
@@ -41,9 +41,10 @@ console.log(cryptoCoin.isValid());
 
 // Hack test
 let chainAt = 1;
-let chainData = {user: "banu", money: 9990};
+let chainData = {user: "banu", money: 2_000_000_000};
 
-cryptoCoin.chain[chainAt].data=chainData;
+// Recalculate Hash for Hacked Block <- This hack doesn't work
+cryptoCoin.chain[chainAt].data = chainData;
 for(let eachBlock = chainAt; eachBlock < cryptoCoin.chain.length-1; eachBlock++){
 	cryptoCoin.chain[chainAt].calculate();
 	let prevHash = ''; let hash = cryptoCoin.chain[eachBlock].SHA.Hash;
