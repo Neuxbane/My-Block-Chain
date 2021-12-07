@@ -51,7 +51,7 @@ class Block {
 }
 
 
-
+// The block chain
 class Blockchain {
 	constructor(){
 		this.chain = [this.createGenesisBlock()];
