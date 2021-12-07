@@ -8,3 +8,6 @@ I was inspired by the following sources:
 then, I wrote this code..
 
 Note: The hash is contains the data it self.
+
+- `node main.js`
+- `node server.js` require `express`
