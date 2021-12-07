@@ -41,8 +41,7 @@ class Block {
 		this.SHA = new mySHA({timestamp: this.timestamp, data: this.data, previousHash: this.previousHash});
 	}
 
-	calculate(){
-		this.SHA = new mySHA({timestamp: this.timestamp, data: this.data, previousHash: this.previousHash});
+	refresh(){
 		let data = JSON.parse(this.SHA.getData());
 		this.data = data.data;
 		this.previousHash = data.previousHash;
@@ -71,7 +70,7 @@ class Blockchain {
 			let data = JSON.parse(newSHA.getData());
 			let newBlock = new Block(data.data);
 			newBlock.timestamp = data.timestamp;
-			newBlock.calculate();
+			newBlock.refresh();
 			this.addBlock(newBlock, true);
 		}
 	}
@@ -89,7 +88,7 @@ class Blockchain {
 			prevHash += hash[Math.round(hash.length*(previous/scan))];
 		}
 		guardBlock.previousHash = prevHash;
-		guardBlock.calculate();
+		guardBlock.refresh();
 		this.chain.push(guardBlock);
 	}
 
@@ -102,7 +101,7 @@ class Blockchain {
 			prevHash += hash[Math.round(hash.length*(previous/scan))];
 		}
 		newBlock.previousHash = prevHash;
-		newBlock.calculate();
+		newBlock.refresh();
 		if (!recover) this.#recoverHash.push(newBlock.SHA.Hash);
 		this.chain.push(newBlock);
 		this.#createBackGuardBlock();
@@ -110,7 +109,7 @@ class Blockchain {
 
 	isValid(){
 		for(let eachBlock = 0; eachBlock < this.chain.length-1; eachBlock++){
-			this.chain[eachBlock].calculate();
+			this.chain[eachBlock].refresh();
 			let hash = ''; let blockHash = this.chain[eachBlock].SHA.Hash;
 			let scan = blockHash.length*(this.security/100);
 			if (scan > this.maxScan) scan = this.maxScan;
