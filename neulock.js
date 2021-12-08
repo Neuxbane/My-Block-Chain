@@ -118,20 +118,20 @@ class Blockchain {
 				hash += blockHash[Math.round(blockHash.length*(readHash/scan))];
 			}
 			if (hash != this.chain[eachBlock+1].previousHash){
-				let errorAt = ''; let broken = 0;
+				let errorAt = ''; let validPercentage = 0;
 				for(let errorScan = 0; errorScan < hash.length; errorScan++){
 					if (hash[errorScan]==this.chain[eachBlock+1].previousHash[errorScan]){
 						errorAt += "0"; // Where the letter is same/valid
 					} else {
 						errorAt += "1"; // Where the letter is diffrent/invalid
-						broken++;
+						validPercentage++;
 					}
 				}
-				broken = broken/hash.length*100;
+				validPercentage = 100 - (validPercentage/hash.length*100);
 				let validHash = this.chain[eachBlock+1].previousHash;
 				let thisBlock = this.chain[eachBlock];
 				this.recover();
-				return {status: false, block: thisBlock, scanHash: hash, validHash: validHash, errorAt: errorAt, brokenPercentage: broken+"%"};
+				return {status: false, block: thisBlock, scanHash: hash, validHash: validHash, errorAt: errorAt, validPercentage: validPercentage+"%"};
 			}
 		}
 		return {status: true};
