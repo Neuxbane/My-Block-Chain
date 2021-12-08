@@ -6,6 +6,7 @@
 	block, a timestamp, and transaction data.
 */
 
+const { SHA } = require('./neulock.js');
 const neulock = require('./neulock.js');
 
 // Create a new block chain
@@ -16,10 +17,10 @@ cryptoCoin.addBlock(new neulock.Block({user: "banu", money: 1_000}));
 cryptoCoin.addBlock(new neulock.Block({user: "ella", money: 4_000_00}));
 cryptoCoin.addBlock(new neulock.Block({user: "mell", money: 175_000_000}));
 cryptoCoin.addBlock(new neulock.Block({user: "mell", money: 175_000_000}));
-cryptoCoin.addBlock(new neulock.Block({user: "edo", money: 350_000}));
+let dataHash = cryptoCoin.addBlock(new neulock.Block({user: "edo", money: 350_000}));
 
 //Test
-console.log(cryptoCoin.isValid());
+console.log("\n\nIsvalid:\n", cryptoCoin.isValid());
 
 // Hack test
 let chainAt = 1;
@@ -42,7 +43,7 @@ cryptoCoin.chain.splice(cryptoCoin.chain.length-1,1);
 
 
 // Recover Things
-console.log(cryptoCoin.isValid()); // Auto recover the data if broken and return something 😏
+console.log("\n\nIsvalid:\n", cryptoCoin.isValid()); // Auto recover the data if broken and return something 😏
 cryptoCoin.recover() //Just recover the data
 
 // Save block chain data
@@ -54,7 +55,13 @@ cryptoCoin = undefined;
 cryptoCoin = new neulock.Blockchain();
 cryptoCoin.load(a);
 
-console.log(cryptoCoin.isValid());
+console.log("\n\nIsvalid:\n",cryptoCoin.isValid());
+
+console.log("\n\nencoded Hash:\n",dataHash)//encoded hash
+
+//decode Hash
+console.log("\n\ndecode Hash:\n",new SHA().decodeHash(dataHash))
+console.log("\n\ndecode Hash:\n",new SHA().decodeHash(dataHash))
 
 // Check memory usage
 const used = process.memoryUsage().heapUsed / 1024 / 1024;
