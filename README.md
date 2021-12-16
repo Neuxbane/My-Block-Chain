@@ -11,7 +11,7 @@ I was inspired by the following sources:
 
 then, I wrote this code..
 
-Note: The hash is contains the data it self.
+Note: I've modified the hash is contains the data it self.
 
 ## How to install
 yourProject.js add line
